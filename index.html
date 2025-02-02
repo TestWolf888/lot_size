@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lot Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        input, button { margin: 5px; padding: 5px; }
+        .result { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h3>Výběr početní operace:</h3>
+    <input type="radio" id="us30" name="operation" value="us30" checked>
+    <label for="us30">Počet lotů US30</label><br>
+    <input type="radio" id="dax" name="operation" value="dax">
+    <label for="dax">Počet lotů DAX</label><br>
+
+    $ Risk (USD): <input type="number" id="risk" step="0.01"><br>
+    Velikost SL (počet pipů): <input type="number" id="pip" step="0.01"><br>
+    <button onclick="calculateLots()">Vypočítat loty</button><br>
+    <div id="result" class="result">Loty: </div>
+
+    <script>
+        function calculateLots() {
+            let risk = parseFloat(document.getElementById('risk').value);
+            let pip = parseFloat(document.getElementById('pip').value);
+            let operation = document.querySelector('input[name="operation"]:checked').value;
+            let result;
+
+            if (!isNaN(risk) && !isNaN(pip) && pip !== 0) {
+                if (operation === 'us30') {
+                    result = risk / (pip * 5);
+                } else if (operation === 'dax') {
+                    result = risk / (pip * 26);
+                }
+                document.getElementById('result').innerText = `Loty: ${result.toFixed(5)}`;
+            } else {
+                document.getElementById('result').innerText = "Loty: Chyba ve vstupu";
+            }
+        }
+    </script>
+</body>
+</html>
